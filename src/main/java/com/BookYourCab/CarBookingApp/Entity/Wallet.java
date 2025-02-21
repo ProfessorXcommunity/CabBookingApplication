@@ -19,6 +19,6 @@ public class Wallet {
 
     private Double balance;
 
-    @OneToMany(mappedBy = "wallet")
+    @OneToMany(mappedBy = "wallet",fetch = FetchType.LAZY)
     private List<WalletTrans> walletTrans;
 }
