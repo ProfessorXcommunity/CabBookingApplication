@@ -33,7 +33,7 @@ public class RiderServiceImpl implements RiderService {
 //        todo changing the ride request status
         rideRequest.setRideRequestStatus(RideRequestStatus.PENDING);
 //        todo fare calculation from dto because dto -> data transfer object
-        Double fare = rideFareCalculation.calculateFare(rideRequestDto);
+        Double fare = rideFareCalculation.calculateFare(rideRequest);
         rideRequest.setFare(fare);
 //        todo saved the ride request on repo, repo is like database
         RideRequest savedRideRequest = rideRequestRepository.save(rideRequest);

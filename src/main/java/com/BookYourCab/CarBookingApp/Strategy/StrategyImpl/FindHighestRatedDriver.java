@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public class FindHighestRatedDriver implements DriverMatching {
+
     @Override
     public List<Driver> findMatchingDriver(RideRequest rideRequest) {
         return List.of();

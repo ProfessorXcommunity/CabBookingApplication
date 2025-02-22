@@ -1,7 +1,11 @@
 package com.BookYourCab.CarBookingApp.Strategy;
 
 import com.BookYourCab.CarBookingApp.Dto.RideRequestDto;
+import com.BookYourCab.CarBookingApp.Entity.RideRequest;
 
 public interface RideFareCalculation {
-    double calculateFare(RideRequestDto rideRequestDto);
+
+    final double RIDE_FARE_MULTIPLE = 10;
+
+    double calculateFare(RideRequest rideRequest);
 }
