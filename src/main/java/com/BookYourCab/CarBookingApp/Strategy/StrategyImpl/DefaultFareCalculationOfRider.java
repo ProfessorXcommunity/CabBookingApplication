@@ -4,9 +4,11 @@ import com.BookYourCab.CarBookingApp.Dto.RideRequestDto;
 import com.BookYourCab.CarBookingApp.Entity.RideRequest;
 import com.BookYourCab.CarBookingApp.Services.DistanceService;
 import com.BookYourCab.CarBookingApp.Strategy.RideFareCalculation;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
+@Primary
 public class DefaultFareCalculationOfRider implements RideFareCalculation {
     private DistanceService distanceService;
 
