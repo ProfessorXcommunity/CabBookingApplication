@@ -5,8 +5,11 @@ import com.BookYourCab.CarBookingApp.Dto.RideDto;
 import com.BookYourCab.CarBookingApp.Dto.RideRequestDto;
 import com.BookYourCab.CarBookingApp.Dto.RiderDto;
 import com.BookYourCab.CarBookingApp.Entity.RideRequest;
+import com.BookYourCab.CarBookingApp.Entity.Rider;
+import com.BookYourCab.CarBookingApp.Entity.User;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideRequestStatus;
 import com.BookYourCab.CarBookingApp.Repository.RideRequestRepository;
+import com.BookYourCab.CarBookingApp.Repository.RiderRepository;
 import com.BookYourCab.CarBookingApp.Services.RiderService;
 import com.BookYourCab.CarBookingApp.Strategy.DriverMatching;
 import com.BookYourCab.CarBookingApp.Strategy.RideFareCalculation;
@@ -25,6 +28,7 @@ public class RiderServiceImpl implements RiderService {
     private final RideFareCalculation rideFareCalculation;
     private final DriverMatching driverMatching;
     private final RideRequestRepository rideRequestRepository;
+    private final RiderRepository riderRepository;
 
     @Override
     public RideRequestDto requestRide(RideRequestDto rideRequestDto) {
@@ -64,5 +68,15 @@ public class RiderServiceImpl implements RiderService {
     @Override
     public List<RideDto> getAllMyRides() {
         return List.of();
+    }
+
+    @Override
+    public Rider createNewUser(User user) {
+        Rider rider = Rider
+                .builder()
+                .user(user)
+                .rating(0.0)
+                .build();
+        return riderRepository.save(rider);
     }
 }

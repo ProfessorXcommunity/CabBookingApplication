@@ -4,6 +4,8 @@ import com.BookYourCab.CarBookingApp.Dto.DriverDto;
 import com.BookYourCab.CarBookingApp.Dto.RideDto;
 import com.BookYourCab.CarBookingApp.Dto.RideRequestDto;
 import com.BookYourCab.CarBookingApp.Dto.RiderDto;
+import com.BookYourCab.CarBookingApp.Entity.Rider;
+import com.BookYourCab.CarBookingApp.Entity.User;
 
 import java.util.List;
 
@@ -18,4 +20,6 @@ public interface RiderService {
     RiderDto getMyProfile();
 
     List<RideDto> getAllMyRides();
+
+    Rider createNewUser (User user);
 }

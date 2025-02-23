@@ -1,6 +1,7 @@
 package com.BookYourCab.CarBookingApp.Entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.locationtech.jts.geom.Point;
@@ -10,6 +11,7 @@ import org.locationtech.jts.geom.Point;
 @Entity
 @Getter
 @Setter
+@Builder
 public class Rider {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
