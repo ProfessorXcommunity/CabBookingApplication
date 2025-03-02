@@ -9,6 +9,7 @@ import com.BookYourCab.CarBookingApp.Entity.enums.Roles;
 import com.BookYourCab.CarBookingApp.Repository.UserRepository;
 import com.BookYourCab.CarBookingApp.Services.AuthService;
 import com.BookYourCab.CarBookingApp.Services.RiderService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public UserDto Signup(SignupDto signupDto) {
         userRepository.findByEmail(signupDto.getEmail()).orElseThrow(()->
                 new RuntimeException("user already exists" + signupDto.getEmail()));
