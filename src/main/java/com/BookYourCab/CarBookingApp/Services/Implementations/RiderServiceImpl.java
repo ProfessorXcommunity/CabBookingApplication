@@ -13,6 +13,7 @@ import com.BookYourCab.CarBookingApp.Repository.RiderRepository;
 import com.BookYourCab.CarBookingApp.Services.RiderService;
 import com.BookYourCab.CarBookingApp.Strategy.DriverMatching;
 import com.BookYourCab.CarBookingApp.Strategy.RideFareCalculation;
+import com.BookYourCab.CarBookingApp.Strategy.StrategyManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -29,6 +30,7 @@ public class RiderServiceImpl implements RiderService {
     private final DriverMatching driverMatching;
     private final RideRequestRepository rideRequestRepository;
     private final RiderRepository riderRepository;
+    private final StrategyManager strategyManager;
 
     @Override
     public RideRequestDto requestRide(RideRequestDto rideRequestDto) {
@@ -37,12 +39,12 @@ public class RiderServiceImpl implements RiderService {
 //        todo changing the ride request status
         rideRequest.setRideRequestStatus(RideRequestStatus.PENDING);
 //        todo fare calculation from dto because dto -> data transfer object
-        Double fare = rideFareCalculation.calculateFare(rideRequest);
+        Double fare = strategyManager.rideFareCalculation().calculateFare(rideRequest);
         rideRequest.setFare(fare);
 //        todo saved the ride request on repo, repo is like database
         RideRequest savedRideRequest = rideRequestRepository.save(rideRequest);
 //        todo driver matching strategy-->driver matching is private so we are using entity instead of DTO
-        driverMatching.findMatchingDriver(rideRequest);
+        strategyManager.driverMatching(4.7).findMatchingDriver(rideRequest);
 
 //        todo now return the dto--> services work means dto->entity->do the work->entity->dto
         return modelMapper.map(savedRideRequest,RideRequestDto.class);
