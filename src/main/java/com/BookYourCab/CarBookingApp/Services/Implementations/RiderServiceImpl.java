@@ -8,6 +8,7 @@ import com.BookYourCab.CarBookingApp.Entity.RideRequest;
 import com.BookYourCab.CarBookingApp.Entity.Rider;
 import com.BookYourCab.CarBookingApp.Entity.User;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideRequestStatus;
+import com.BookYourCab.CarBookingApp.Exceptions.ResourceNotFoundException;
 import com.BookYourCab.CarBookingApp.Repository.RideRequestRepository;
 import com.BookYourCab.CarBookingApp.Repository.RiderRepository;
 import com.BookYourCab.CarBookingApp.Services.RiderService;
@@ -34,6 +35,7 @@ public class RiderServiceImpl implements RiderService {
 
     @Override
     public RideRequestDto requestRide(RideRequestDto rideRequestDto) {
+        Rider rider = getCurrentRider();
 //        todo converting dto to entity class
         RideRequest rideRequest = modelMapper.map(rideRequestDto,RideRequest.class);
 //        todo changing the ride request status
@@ -44,7 +46,7 @@ public class RiderServiceImpl implements RiderService {
 //        todo saved the ride request on repo, repo is like database
         RideRequest savedRideRequest = rideRequestRepository.save(rideRequest);
 //        todo driver matching strategy-->driver matching is private so we are using entity instead of DTO
-        strategyManager.driverMatching(4.7).findMatchingDriver(rideRequest);
+        strategyManager.driverMatching(rider.getRating()).findMatchingDriver(rideRequest);
 
 //        todo now return the dto--> services work means dto->entity->do the work->entity->dto
         return modelMapper.map(savedRideRequest,RideRequestDto.class);
@@ -80,5 +82,13 @@ public class RiderServiceImpl implements RiderService {
                 .rating(0.0)
                 .build();
         return riderRepository.save(rider);
+    }
+
+    @Override
+    public Rider getCurrentRider() {
+//        todo Spring security setup here
+        return riderRepository.findById(1L).orElseThrow(()->new ResourceNotFoundException(
+                "Rider not found"+1
+        ));
     }
 }
