@@ -15,8 +15,11 @@ import com.BookYourCab.CarBookingApp.Services.RiderService;
 import com.BookYourCab.CarBookingApp.Strategy.DriverMatching;
 import com.BookYourCab.CarBookingApp.Strategy.RideFareCalculation;
 import com.BookYourCab.CarBookingApp.Strategy.StrategyManager;
+import com.BookYourCab.CarBookingApp.Utils.GeometryUtil;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.Point;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,12 +36,16 @@ public class RiderServiceImpl implements RiderService {
     private final RiderRepository riderRepository;
     private final StrategyManager strategyManager;
 
+    @Transactional
     @Override
     public RideRequestDto requestRide(RideRequestDto rideRequestDto) {
         Rider rider = getCurrentRider();
 //        todo converting dto to entity class
         RideRequest rideRequest = modelMapper.map(rideRequestDto,RideRequest.class);
 //        todo changing the ride request status
+        rideRequest.getPickUpLocation().setSRID(4326);
+        rideRequest.getDropOffLocation().setSRID(4326);
+
         rideRequest.setRideRequestStatus(RideRequestStatus.PENDING);
 //        todo fare calculation from dto because dto -> data transfer object
         Double fare = strategyManager.rideFareCalculation().calculateFare(rideRequest);

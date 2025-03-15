@@ -6,6 +6,8 @@ import com.BookYourCab.CarBookingApp.Dto.UserDto;
 import com.BookYourCab.CarBookingApp.Entity.Rider;
 import com.BookYourCab.CarBookingApp.Entity.User;
 import com.BookYourCab.CarBookingApp.Entity.enums.Roles;
+import com.BookYourCab.CarBookingApp.Exceptions.ResourceNotFoundException;
+import com.BookYourCab.CarBookingApp.Exceptions.RuntimeConflictException;
 import com.BookYourCab.CarBookingApp.Repository.UserRepository;
 import com.BookYourCab.CarBookingApp.Services.AuthService;
 import com.BookYourCab.CarBookingApp.Services.RiderService;
@@ -31,8 +33,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public UserDto Signup(SignupDto signupDto) {
-        userRepository.findByEmail(signupDto.getEmail()).orElseThrow(()->
-                new RuntimeException("user already exists" + signupDto.getEmail()));
+       if(userRepository.findByEmail(signupDto.getEmail()).isPresent()){
+           throw new RuntimeConflictException("user already exists" + " "+signupDto.getEmail());
+       }
+//                .orElseThrow(()-> new RuntimeConflictException("user already exists" + " "+signupDto.getEmail()));
 
 
         User mappedUser = modelMapper.map(signupDto,User.class);

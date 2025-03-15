@@ -1,9 +1,7 @@
 package com.BookYourCab.CarBookingApp.Entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.locationtech.jts.geom.Point;
 
 
@@ -11,6 +9,8 @@ import org.locationtech.jts.geom.Point;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Rider {
     @Id

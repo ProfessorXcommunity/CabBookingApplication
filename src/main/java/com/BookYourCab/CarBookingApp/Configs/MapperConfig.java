@@ -15,7 +15,9 @@ public class MapperConfig {
         ModelMapper mapper = new ModelMapper();
         mapper.typeMap(PointDto.class, Point.class).setConverter(context ->{
             PointDto pointDto = context.getSource();
-            return GeometryUtil.createPoint(pointDto);
+            Point point = GeometryUtil.createPoint(pointDto);
+            point.setSRID(4326); // ✅ Ensure SRID is always set
+            return point;
         });
         mapper.typeMap(Point.class,PointDto.class).setConverter(context->{
             Point point = context.getSource();
@@ -26,6 +28,6 @@ public class MapperConfig {
             return new PointDto(coordinates);
         });
 
-        return new ModelMapper();
+        return mapper;
     }
 }

@@ -3,6 +3,7 @@ package com.BookYourCab.CarBookingApp.Dto;
 import com.BookYourCab.CarBookingApp.Entity.Rider;
 import com.BookYourCab.CarBookingApp.Entity.enums.PaymentMethod;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideRequestStatus;
+import com.BookYourCab.CarBookingApp.Utils.GeometryUtil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,4 +30,12 @@ public class RideRequestDto {
     private PaymentMethod paymentMethod;
 
     private RideRequestStatus rideRequestStatus;
+
+//    public Point getPickUpPoint() {
+//        return GeometryUtil.createPoint(pickUpLocation);
+//    }
+//
+//    public Point getDropOffPoint() {
+//        return GeometryUtil.createPoint(dropOffLocation);
+//    }
 }
