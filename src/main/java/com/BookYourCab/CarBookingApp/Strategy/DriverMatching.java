@@ -1,6 +1,5 @@
 package com.BookYourCab.CarBookingApp.Strategy;
 
-import com.BookYourCab.CarBookingApp.Dto.RideRequestDto;
 import com.BookYourCab.CarBookingApp.Entity.Driver;
 import com.BookYourCab.CarBookingApp.Entity.RideRequest;
 

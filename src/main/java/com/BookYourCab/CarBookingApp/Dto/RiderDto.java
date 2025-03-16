@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RiderDto {
-    private UserDto userDto;
+    private Long id;
+    private UserDto user;
     private Double rating;
 
 }

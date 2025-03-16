@@ -15,13 +15,10 @@ import com.BookYourCab.CarBookingApp.Services.RiderService;
 import com.BookYourCab.CarBookingApp.Strategy.DriverMatching;
 import com.BookYourCab.CarBookingApp.Strategy.RideFareCalculation;
 import com.BookYourCab.CarBookingApp.Strategy.StrategyManager;
-import com.BookYourCab.CarBookingApp.Utils.GeometryUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.locationtech.jts.geom.Point;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,10 +40,11 @@ public class RiderServiceImpl implements RiderService {
 //        todo converting dto to entity class
         RideRequest rideRequest = modelMapper.map(rideRequestDto,RideRequest.class);
 //        todo changing the ride request status
-        rideRequest.getPickUpLocation().setSRID(4326);
-        rideRequest.getDropOffLocation().setSRID(4326);
+//        rideRequest.getPickUpLocation().setSRID(4326);
+//        rideRequest.getDropOffLocation().setSRID(4326);
 
         rideRequest.setRideRequestStatus(RideRequestStatus.PENDING);
+        rideRequest.setRider(rider);
 //        todo fare calculation from dto because dto -> data transfer object
         Double fare = strategyManager.rideFareCalculation().calculateFare(rideRequest);
         rideRequest.setFare(fare);
@@ -55,6 +53,7 @@ public class RiderServiceImpl implements RiderService {
         RideRequest savedRideRequest = rideRequestRepository.save(rideRequest);
 //        todo driver matching strategy-->driver matching is private so we are using entity instead of DTO
         strategyManager.driverMatching(rider.getRating()).findMatchingDriver(rideRequest);
+//        todo send notifications to all the available drivers
 
 //        todo now return the dto--> services work means dto->entity->do the work->entity->dto
         return modelMapper.map(savedRideRequest,RideRequestDto.class);

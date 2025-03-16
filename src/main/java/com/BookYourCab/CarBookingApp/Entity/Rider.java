@@ -2,7 +2,6 @@ package com.BookYourCab.CarBookingApp.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.locationtech.jts.geom.Point;
 
 
 
@@ -22,8 +21,6 @@ public class Rider {
     private User user;
 
     private Double rating;
-
-    private Boolean available;
 
 
 
