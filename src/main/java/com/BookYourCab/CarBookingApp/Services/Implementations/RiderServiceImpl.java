@@ -50,6 +50,7 @@ public class RiderServiceImpl implements RiderService {
 //        todo fare calculation from dto because dto -> data transfer object
         Double fare = strategyManager.rideFareCalculation().calculateFare(rideRequest);
         rideRequest.setFare(fare);
+        log.info("calculated fare" +" "+ fare);
 //        todo saved the ride request on repo, repo is like database
         RideRequest savedRideRequest = rideRequestRepository.save(rideRequest);
 //        todo driver matching strategy-->driver matching is private so we are using entity instead of DTO

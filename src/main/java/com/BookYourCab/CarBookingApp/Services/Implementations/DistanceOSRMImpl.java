@@ -27,7 +27,8 @@ public class DistanceOSRMImpl implements DistanceService {
         log.info("Calculating distance from {} to {}", src, dest);
 
         try{
-            String uri = OSRM_API_BASE_URL+src.getX()+","+src.getY()+";"+dest.getX()+","+dest.getY();
+            String uri = OSRM_API_BASE_URL+src.getY()+","+src.getX()+";"+dest.getY()+","+dest.getX();
+            log.info("uri : {}",uri);
             OSRMResponseDto osrmResponseDto = RestClient.builder()
                     .baseUrl(OSRM_API_BASE_URL)
                     .build()
@@ -35,10 +36,12 @@ public class DistanceOSRMImpl implements DistanceService {
                     .uri(uri)
                     .retrieve()
                     .body(OSRMResponseDto.class);
+            log.info("osrmResponseDto : {}",osrmResponseDto);
             if (osrmResponseDto == null || osrmResponseDto.getRoutes().isEmpty()) {
                 throw new RuntimeException("Invalid response from OSRM");
             }
 
+            log.info("Raw Distance : {}",osrmResponseDto.getRoutes().get(0).getDistance());
             return osrmResponseDto.getRoutes().get(0).getDistance()/1000.0;
         } catch (Exception e) {
             throw new RuntimeException("Error getting data from OSRM "+e.getMessage());
