@@ -49,7 +49,23 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public RideDto cancelRide(Long rideId) {
-        return null;
+        Ride ride = rideService.getRideById(rideId);
+        Driver driver = getCurrentDriver();
+
+        if(!driver.equals(ride.getDriver())){
+            throw new RuntimeException("Driver can't start the ride as the driver not accepted the ride request earlier");
+        }
+
+        if(!ride.getRideStatus().equals(RideStatus.CONFIRMED)){
+            throw new RuntimeException("Ride status is not Confirmed yet, status :"+ride.getRideStatus());
+        }
+
+        rideService.updateRideStatus(ride,RideStatus.CANCELLED);
+        driver.setAvailable(true);
+        driverRepository.save(driver);
+
+        return modelMapper.map(ride,RideDto.class);
+
     }
 
     @Override

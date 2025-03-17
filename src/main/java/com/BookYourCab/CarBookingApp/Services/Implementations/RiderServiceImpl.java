@@ -4,6 +4,7 @@ import com.BookYourCab.CarBookingApp.Dto.DriverDto;
 import com.BookYourCab.CarBookingApp.Dto.RideDto;
 import com.BookYourCab.CarBookingApp.Dto.RideRequestDto;
 import com.BookYourCab.CarBookingApp.Dto.RiderDto;
+import com.BookYourCab.CarBookingApp.Entity.Ride;
 import com.BookYourCab.CarBookingApp.Entity.RideRequest;
 import com.BookYourCab.CarBookingApp.Entity.Rider;
 import com.BookYourCab.CarBookingApp.Entity.User;
@@ -11,6 +12,7 @@ import com.BookYourCab.CarBookingApp.Entity.enums.RideRequestStatus;
 import com.BookYourCab.CarBookingApp.Exceptions.ResourceNotFoundException;
 import com.BookYourCab.CarBookingApp.Repository.RideRequestRepository;
 import com.BookYourCab.CarBookingApp.Repository.RiderRepository;
+import com.BookYourCab.CarBookingApp.Services.RideService;
 import com.BookYourCab.CarBookingApp.Services.RiderService;
 import com.BookYourCab.CarBookingApp.Strategy.DriverMatching;
 import com.BookYourCab.CarBookingApp.Strategy.RideFareCalculation;
@@ -62,7 +64,8 @@ public class RiderServiceImpl implements RiderService {
     }
 
     @Override
-    public RideDto cancelRIde(Long rideId) {
+    public RideDto cancelRide(Long rideId) {
+
         return null;
     }
 
