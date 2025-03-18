@@ -15,6 +15,8 @@ import com.BookYourCab.CarBookingApp.Services.RideRequestService;
 import com.BookYourCab.CarBookingApp.Services.RideService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,8 +43,7 @@ public class DriverServiceImpl implements DriverService {
         if(!currentDriver.getAvailable()){
             throw new RuntimeException("Driver can't accept the ride due to unavailability");
         }
-        currentDriver.setAvailable(false);
-        Driver savedDriver = driverRepository.save(currentDriver);
+        Driver savedDriver = updateDriverAvailability(currentDriver,false);
         Ride ride = rideService.createNewRide(rideRequest,savedDriver);
         return  modelMapper.map(ride,RideDto.class);
     }
@@ -61,11 +62,8 @@ public class DriverServiceImpl implements DriverService {
         }
 
         rideService.updateRideStatus(ride,RideStatus.CANCELLED);
-        driver.setAvailable(true);
-        driverRepository.save(driver);
-
+        updateDriverAvailability(driver,true);
         return modelMapper.map(ride,RideDto.class);
-
     }
 
     @Override
@@ -102,12 +100,18 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public DriverDto getMyProfile() {
-        return null;
+        Driver currentDriver = getCurrentDriver();
+        return modelMapper.map(currentDriver, DriverDto.class);
     }
 
     @Override
-    public List<RideDto> getAllMyRides() {
-        return List.of();
+    public Page<RideDto> getAllMyRides(PageRequest pageRequest) {
+        Driver currentDriver = getCurrentDriver();
+        return rideService.getAllRidesOfDriver(currentDriver.getId(), pageRequest)
+                .map(
+                        ride -> modelMapper.map(ride, RideDto.class)
+                );
+
     }
 
     @Override
@@ -115,5 +119,12 @@ public class DriverServiceImpl implements DriverService {
         return driverRepository.findById(2L)
                 .orElseThrow(()-> new ResourceNotFoundException("No drivers found with id "+2));
 
+    }
+
+    @Override
+    public Driver updateDriverAvailability(Driver driver, boolean availability) {
+
+        driver.setAvailable(availability);
+        return driverRepository.save(driver);
     }
 }

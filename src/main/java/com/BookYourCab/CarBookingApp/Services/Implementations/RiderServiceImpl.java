@@ -9,9 +9,11 @@ import com.BookYourCab.CarBookingApp.Entity.RideRequest;
 import com.BookYourCab.CarBookingApp.Entity.Rider;
 import com.BookYourCab.CarBookingApp.Entity.User;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideRequestStatus;
+import com.BookYourCab.CarBookingApp.Entity.enums.RideStatus;
 import com.BookYourCab.CarBookingApp.Exceptions.ResourceNotFoundException;
 import com.BookYourCab.CarBookingApp.Repository.RideRequestRepository;
 import com.BookYourCab.CarBookingApp.Repository.RiderRepository;
+import com.BookYourCab.CarBookingApp.Services.DriverService;
 import com.BookYourCab.CarBookingApp.Services.RideService;
 import com.BookYourCab.CarBookingApp.Services.RiderService;
 import com.BookYourCab.CarBookingApp.Strategy.DriverMatching;
@@ -34,6 +36,8 @@ public class RiderServiceImpl implements RiderService {
     private final RideRequestRepository rideRequestRepository;
     private final RiderRepository riderRepository;
     private final StrategyManager strategyManager;
+    private final RideService rideService;
+    private final DriverService driverService;
 
     @Transactional
     @Override
@@ -65,8 +69,20 @@ public class RiderServiceImpl implements RiderService {
 
     @Override
     public RideDto cancelRide(Long rideId) {
+        Rider rider = getCurrentRider();
+        Ride ride = rideService.getRideById(rideId);
 
-        return null;
+        if(!rider.equals(ride.getRider())){
+            throw new RuntimeException("Rider does not own this ride : "+ ride.getRider());
+        }
+        if(!ride.getRideStatus().equals(RideStatus.CONFIRMED)){
+            throw new RuntimeException("Ride status is not Confirmed yet, status :"+ride.getRideStatus());
+        }
+
+        Ride mappedRide = rideService.updateRideStatus(ride,RideStatus.CANCELLED);
+        driverService.updateDriverAvailability(ride.getDriver(),true);
+
+        return modelMapper.map(mappedRide,RideDto.class);
     }
 
     @Override
