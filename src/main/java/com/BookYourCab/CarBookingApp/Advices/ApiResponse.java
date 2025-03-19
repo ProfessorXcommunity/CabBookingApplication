@@ -1,10 +1,12 @@
 package com.BookYourCab.CarBookingApp.Advices;
 
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Data
+@AllArgsConstructor
+@Builder
 public class ApiResponse<T> {
 
 //    @JsonFormat(pattern = "hh:mm:ss dd-MM-yyyy")
