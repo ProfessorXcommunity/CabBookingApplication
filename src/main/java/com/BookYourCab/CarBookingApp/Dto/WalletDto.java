@@ -1,6 +1,5 @@
 package com.BookYourCab.CarBookingApp.Dto;
 
-import com.BookYourCab.CarBookingApp.Entity.WalletTransaction;
 import lombok.Data;
 
 import java.util.List;

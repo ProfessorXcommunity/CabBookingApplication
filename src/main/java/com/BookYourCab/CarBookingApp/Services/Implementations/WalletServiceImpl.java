@@ -1,8 +1,5 @@
 package com.BookYourCab.CarBookingApp.Services.Implementations;
 
-import com.BookYourCab.CarBookingApp.Dto.RideDto;
-import com.BookYourCab.CarBookingApp.Dto.WalletDto;
-import com.BookYourCab.CarBookingApp.Dto.WalletTransactionDto;
 import com.BookYourCab.CarBookingApp.Entity.Ride;
 import com.BookYourCab.CarBookingApp.Entity.User;
 import com.BookYourCab.CarBookingApp.Entity.Wallet;
@@ -14,7 +11,6 @@ import com.BookYourCab.CarBookingApp.Repository.WalletRepository;
 import com.BookYourCab.CarBookingApp.Services.WalletService;
 import com.BookYourCab.CarBookingApp.Services.WalletTransactionService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -4,7 +4,10 @@ import com.BookYourCab.CarBookingApp.Dto.DriverDto;
 import com.BookYourCab.CarBookingApp.Dto.RideDto;
 import com.BookYourCab.CarBookingApp.Dto.RideRequestDto;
 import com.BookYourCab.CarBookingApp.Dto.RiderDto;
-import com.BookYourCab.CarBookingApp.Entity.*;
+import com.BookYourCab.CarBookingApp.Entity.Ride;
+import com.BookYourCab.CarBookingApp.Entity.RideRequest;
+import com.BookYourCab.CarBookingApp.Entity.Rider;
+import com.BookYourCab.CarBookingApp.Entity.User;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideRequestStatus;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideStatus;
 import com.BookYourCab.CarBookingApp.Exceptions.ResourceNotFoundException;
@@ -23,8 +26,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j

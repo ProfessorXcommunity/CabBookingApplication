@@ -1,6 +1,5 @@
 package com.BookYourCab.CarBookingApp.Services.Implementations;
 
-import com.BookYourCab.CarBookingApp.Dto.WalletTransactionDto;
 import com.BookYourCab.CarBookingApp.Entity.WalletTransaction;
 import com.BookYourCab.CarBookingApp.Repository.WalletTransactionRepository;
 import com.BookYourCab.CarBookingApp.Services.WalletTransactionService;
