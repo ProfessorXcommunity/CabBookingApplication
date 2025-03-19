@@ -9,6 +9,7 @@ import com.BookYourCab.CarBookingApp.Exceptions.RuntimeConflictException;
 import com.BookYourCab.CarBookingApp.Repository.UserRepository;
 import com.BookYourCab.CarBookingApp.Services.AuthService;
 import com.BookYourCab.CarBookingApp.Services.RiderService;
+import com.BookYourCab.CarBookingApp.Services.WalletService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,6 +23,7 @@ public class AuthServiceImpl implements AuthService {
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
     private final RiderService riderService;
+    private final WalletService walletService;
 
     @Override
     public String login(String email, String password) {
@@ -44,6 +46,7 @@ public class AuthServiceImpl implements AuthService {
 //        todo create new user related to entity
         riderService.createNewUser(savedUser);
 //        todo wallet related services
+        walletService.createNewWallet(savedUser);
         return modelMapper.map(savedUser,UserDto.class);
     }
 

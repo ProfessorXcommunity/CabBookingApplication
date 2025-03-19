@@ -3,10 +3,7 @@ package com.BookYourCab.CarBookingApp.Entity;
 import com.BookYourCab.CarBookingApp.Entity.enums.PaymentMethod;
 import com.BookYourCab.CarBookingApp.Entity.enums.PaymentStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -15,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor@NoArgsConstructor
+@Builder
 public class Payment {
 
     @Id
