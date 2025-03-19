@@ -4,10 +4,7 @@ import com.BookYourCab.CarBookingApp.Dto.DriverDto;
 import com.BookYourCab.CarBookingApp.Dto.RideDto;
 import com.BookYourCab.CarBookingApp.Dto.RideRequestDto;
 import com.BookYourCab.CarBookingApp.Dto.RiderDto;
-import com.BookYourCab.CarBookingApp.Entity.Ride;
-import com.BookYourCab.CarBookingApp.Entity.RideRequest;
-import com.BookYourCab.CarBookingApp.Entity.Rider;
-import com.BookYourCab.CarBookingApp.Entity.User;
+import com.BookYourCab.CarBookingApp.Entity.*;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideRequestStatus;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideStatus;
 import com.BookYourCab.CarBookingApp.Exceptions.ResourceNotFoundException;
@@ -23,6 +20,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -96,8 +95,13 @@ public class RiderServiceImpl implements RiderService {
     }
 
     @Override
-    public List<RideDto> getAllMyRides() {
-        return List.of();
+    public Page<RideDto> getAllMyRides(PageRequest pageRequest) {
+        Rider currentRider = getCurrentRider();
+        return rideService.getAllRidesOfRider(currentRider.getId(), pageRequest)
+                .map(
+                        ride -> modelMapper.map(ride, RideDto.class)
+                );
+
     }
 
     @Override

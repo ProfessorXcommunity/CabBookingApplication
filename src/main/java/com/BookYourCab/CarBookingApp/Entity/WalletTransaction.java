@@ -3,16 +3,16 @@ package com.BookYourCab.CarBookingApp.Entity;
 import com.BookYourCab.CarBookingApp.Entity.enums.TransactionMethod;
 import com.BookYourCab.CarBookingApp.Entity.enums.TransactionType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-public class WalletTrans {
+@Getter
+@Setter
+@AllArgsConstructor@NoArgsConstructor
+@Builder
+public class WalletTransaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

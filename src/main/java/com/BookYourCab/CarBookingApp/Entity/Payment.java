@@ -4,14 +4,17 @@ import com.BookYourCab.CarBookingApp.Entity.enums.PaymentMethod;
 import com.BookYourCab.CarBookingApp.Entity.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor@NoArgsConstructor
 public class Payment {
 
     @Id
