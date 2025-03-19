@@ -1,9 +1,6 @@
 package com.BookYourCab.CarBookingApp.Services.Implementations;
 
-import com.BookYourCab.CarBookingApp.Dto.DriverDto;
-import com.BookYourCab.CarBookingApp.Dto.RideDto;
-import com.BookYourCab.CarBookingApp.Dto.RideRequestDto;
-import com.BookYourCab.CarBookingApp.Dto.RiderDto;
+import com.BookYourCab.CarBookingApp.Dto.*;
 import com.BookYourCab.CarBookingApp.Entity.Ride;
 import com.BookYourCab.CarBookingApp.Entity.RideRequest;
 import com.BookYourCab.CarBookingApp.Entity.Rider;
@@ -86,19 +83,20 @@ public class RiderServiceImpl implements RiderService {
     }
 
     @Override
-    public DriverDto rateRider(Long riderId, Integer rating) {
+    public DriverDto rateDriver(Long riderId, Integer rating) {
         return null;
     }
 
     @Override
     public RiderDto getMyProfile() {
-        return null;
+        Rider currentRider = getCurrentRider();
+        return modelMapper.map(currentRider, RiderDto.class);
     }
 
     @Override
     public Page<RideDto> getAllMyRides(PageRequest pageRequest) {
         Rider currentRider = getCurrentRider();
-        return rideService.getAllRidesOfRider(currentRider.getId(), pageRequest)
+        return rideService.getAllRidesOfRider(currentRider, pageRequest)
                 .map(
                         ride -> modelMapper.map(ride, RideDto.class)
                 );

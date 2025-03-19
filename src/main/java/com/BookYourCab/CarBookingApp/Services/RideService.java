@@ -4,6 +4,7 @@ import com.BookYourCab.CarBookingApp.Dto.RideRequestDto;
 import com.BookYourCab.CarBookingApp.Entity.Driver;
 import com.BookYourCab.CarBookingApp.Entity.Ride;
 import com.BookYourCab.CarBookingApp.Entity.RideRequest;
+import com.BookYourCab.CarBookingApp.Entity.Rider;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +19,7 @@ public interface RideService {
 
     Ride updateRideStatus(Ride ride, RideStatus rideStatus);
 
-    Page<Ride> getAllRidesOfRider(Long riderId, PageRequest pageRequest);
+    Page<Ride> getAllRidesOfRider(Rider rider, PageRequest pageRequest);
 
-    Page<Ride> getAllRidesOfDriver(Long driverId,PageRequest pageRequest);
+    Page<Ride> getAllRidesOfDriver(Driver driver,PageRequest pageRequest);
 }
