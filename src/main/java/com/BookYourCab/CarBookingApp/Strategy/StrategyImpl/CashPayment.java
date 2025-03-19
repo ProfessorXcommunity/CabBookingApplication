@@ -6,7 +6,6 @@ import com.BookYourCab.CarBookingApp.Entity.Wallet;
 import com.BookYourCab.CarBookingApp.Entity.enums.PaymentStatus;
 import com.BookYourCab.CarBookingApp.Entity.enums.TransactionMethod;
 import com.BookYourCab.CarBookingApp.Repository.PaymentRepository;
-import com.BookYourCab.CarBookingApp.Services.PaymentService;
 import com.BookYourCab.CarBookingApp.Services.WalletService;
 import com.BookYourCab.CarBookingApp.Strategy.PaymentStrategy;
 import lombok.RequiredArgsConstructor;

@@ -11,6 +11,7 @@ import com.BookYourCab.CarBookingApp.Entity.enums.RideStatus;
 import com.BookYourCab.CarBookingApp.Exceptions.ResourceNotFoundException;
 import com.BookYourCab.CarBookingApp.Repository.DriverRepository;
 import com.BookYourCab.CarBookingApp.Services.DriverService;
+import com.BookYourCab.CarBookingApp.Services.PaymentService;
 import com.BookYourCab.CarBookingApp.Services.RideRequestService;
 import com.BookYourCab.CarBookingApp.Services.RideService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class DriverServiceImpl implements DriverService {
     private final DriverRepository driverRepository;
     private final RideService rideService;
     private final ModelMapper modelMapper;
+    private final PaymentService paymentService;
 
     @Override
     @Transactional
@@ -83,13 +85,30 @@ public class DriverServiceImpl implements DriverService {
         }
         ride.setStartedAt(LocalDateTime.now());
         Ride savedRide = rideService.updateRideStatus(ride,RideStatus.ONGOING);
+        paymentService.createNewPayment(savedRide);
         return modelMapper.map(savedRide,RideDto.class);
 
     }
 
     @Override
+    @Transactional
     public RideDto endRide(Long rideId) {
-        return null;
+        Ride ride = rideService.getRideById(rideId);
+        Driver driver = getCurrentDriver();
+
+        if(!driver.equals(ride.getDriver())){
+            throw new RuntimeException("Driver can't start the ride as the driver not accepted the ride request earlier");
+        }
+
+        if(!ride.getRideStatus().equals(RideStatus.ONGOING)){
+            throw new RuntimeException("Ride status is not ongoing, status :"+RideStatus.CONFIRMED);
+        }
+        ride.setEndedAt(LocalDateTime.now());
+        Ride savedRide = rideService.updateRideStatus(ride,RideStatus.ENDED);
+        updateDriverAvailability(driver,true);
+        paymentService.paymentProcess(ride);
+
+        return modelMapper.map(savedRide,RideDto.class);
     }
 
     @Override

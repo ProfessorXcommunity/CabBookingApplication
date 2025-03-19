@@ -5,7 +5,7 @@ import com.BookYourCab.CarBookingApp.Entity.Ride;
 import com.BookYourCab.CarBookingApp.Entity.enums.PaymentStatus;
 
 public interface PaymentService {
-    void paymentProcess(Payment payment);
+    void paymentProcess(Ride ride);
 
     Payment createNewPayment(Ride ride);
 
