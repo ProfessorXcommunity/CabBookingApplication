@@ -1,13 +1,17 @@
 package com.BookYourCab.CarBookingApp.Entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.locationtech.jts.geom.Point;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor@AllArgsConstructor
+@Builder
+@Table(indexes = {
+        @Index(name = "idx_driver_vehicle_id",columnList = "vehicle_id")
+})
 public class Driver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

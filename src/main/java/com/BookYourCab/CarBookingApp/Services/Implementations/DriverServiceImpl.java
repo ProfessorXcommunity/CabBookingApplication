@@ -112,7 +112,16 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public RiderDto rateRider(Long riderId, Integer rating) {
+    public RiderDto rateRider(Long rideId, Integer rating) {
+        Ride ride = rideService.getRideById(rideId);
+        Driver driver = getCurrentDriver();
+        if(!driver.equals(ride.getDriver())){
+            throw new RuntimeException("This driver is not the owner of the ride with rideId" + rideId);
+        }
+
+        if(!ride.getRideStatus().equals(RideStatus.ENDED)){
+            throw new RuntimeException("Ride status is not ended yet, status :"+ride.getRideStatus());
+        }
         return null;
     }
 
@@ -143,6 +152,11 @@ public class DriverServiceImpl implements DriverService {
     public Driver updateDriverAvailability(Driver driver, boolean availability) {
 
         driver.setAvailable(availability);
+        return driverRepository.save(driver);
+    }
+
+    @Override
+    public Driver createNewDriver(Driver driver) {
         return driverRepository.save(driver);
     }
 }

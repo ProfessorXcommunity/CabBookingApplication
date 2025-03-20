@@ -1,9 +1,10 @@
 package com.BookYourCab.CarBookingApp.Controller;
 
-import com.BookYourCab.CarBookingApp.Dto.RideDto;
-import com.BookYourCab.CarBookingApp.Dto.RideStartDto;
+import com.BookYourCab.CarBookingApp.Dto.*;
 import com.BookYourCab.CarBookingApp.Services.DriverService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,5 +29,27 @@ public class DriverController {
     @PostMapping("/endRide/{rideId}")
     public ResponseEntity<RideDto> endRide(@PathVariable Long rideId){
         return ResponseEntity.ok(driverService.endRide(rideId));
+    }
+
+    @PostMapping("/cancelRide/{rideId}")
+    public ResponseEntity<RideDto> cancelRide(@PathVariable Long rideId){
+        return ResponseEntity.ok(driverService.cancelRide(rideId));
+    }
+
+    @PostMapping("/rateRider")
+    public ResponseEntity<RiderDto> rateRider(@RequestBody RatingDto ratingDto){
+        return ResponseEntity.ok(driverService.rateRider(ratingDto.getRideId(), ratingDto.getRating()));
+    }
+
+    @GetMapping("/getMyProfile")
+    public ResponseEntity<DriverDto> getMyProfile(){
+        return ResponseEntity.ok(driverService.getMyProfile());
+    }
+
+    @GetMapping("/getMyRides")
+    public ResponseEntity<Page<RideDto>> getAllMyRides(@RequestParam(defaultValue = "0") Integer pageOffSet,
+                                                       @RequestParam(defaultValue = "10",required = false) Integer pageSize){
+        PageRequest pageRequest = PageRequest.of(pageOffSet,pageSize);
+        return ResponseEntity.ok(driverService.getAllMyRides(pageRequest));
     }
 }

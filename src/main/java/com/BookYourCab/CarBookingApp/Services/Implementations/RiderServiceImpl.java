@@ -1,10 +1,7 @@
 package com.BookYourCab.CarBookingApp.Services.Implementations;
 
 import com.BookYourCab.CarBookingApp.Dto.*;
-import com.BookYourCab.CarBookingApp.Entity.Ride;
-import com.BookYourCab.CarBookingApp.Entity.RideRequest;
-import com.BookYourCab.CarBookingApp.Entity.Rider;
-import com.BookYourCab.CarBookingApp.Entity.User;
+import com.BookYourCab.CarBookingApp.Entity.*;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideRequestStatus;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideStatus;
 import com.BookYourCab.CarBookingApp.Exceptions.ResourceNotFoundException;
@@ -84,6 +81,8 @@ public class RiderServiceImpl implements RiderService {
 
     @Override
     public DriverDto rateDriver(Long riderId, Integer rating) {
+        Ride ride = rideService.getRideById(riderId);
+
         return null;
     }
 
