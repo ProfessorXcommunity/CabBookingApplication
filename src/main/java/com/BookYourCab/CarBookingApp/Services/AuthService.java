@@ -6,7 +6,7 @@ import com.BookYourCab.CarBookingApp.Dto.UserDto;
 
 public interface AuthService {
 
-    String login(String email , String password);
+    String[] login(String email , String password);
 
     UserDto Signup(SignupDto signupDto);
 
