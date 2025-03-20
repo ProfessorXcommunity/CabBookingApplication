@@ -9,6 +9,7 @@ import com.BookYourCab.CarBookingApp.Entity.enums.Roles;
 import com.BookYourCab.CarBookingApp.Exceptions.ResourceNotFoundException;
 import com.BookYourCab.CarBookingApp.Exceptions.RuntimeConflictException;
 import com.BookYourCab.CarBookingApp.Repository.UserRepository;
+import com.BookYourCab.CarBookingApp.Security.JWTService;
 import com.BookYourCab.CarBookingApp.Services.AuthService;
 import com.BookYourCab.CarBookingApp.Services.DriverService;
 import com.BookYourCab.CarBookingApp.Services.RiderService;
@@ -16,6 +17,9 @@ import com.BookYourCab.CarBookingApp.Services.WalletService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,12 +36,20 @@ public class AuthServiceImpl implements AuthService {
     private final WalletService walletService;
     private final DriverService driverService;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JWTService jwtService;
 
     @Override
     public String[] login(String email, String password) {
-        String[] tokens = new String[2];
+        Authentication authentication =authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email,password)
+        );
+        User user = (User) authentication.getPrincipal();
 
-        return tokens;
+        String accessToken = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+
+        return new String[]{accessToken,refreshToken};
     }
 
     @Override
