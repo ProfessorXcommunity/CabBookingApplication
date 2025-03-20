@@ -8,6 +8,7 @@ import com.BookYourCab.CarBookingApp.Exceptions.ResourceNotFoundException;
 import com.BookYourCab.CarBookingApp.Repository.RideRequestRepository;
 import com.BookYourCab.CarBookingApp.Repository.RiderRepository;
 import com.BookYourCab.CarBookingApp.Services.DriverService;
+import com.BookYourCab.CarBookingApp.Services.RatingService;
 import com.BookYourCab.CarBookingApp.Services.RideService;
 import com.BookYourCab.CarBookingApp.Services.RiderService;
 import com.BookYourCab.CarBookingApp.Strategy.DriverMatching;
@@ -32,6 +33,7 @@ public class RiderServiceImpl implements RiderService {
     private final StrategyManager strategyManager;
     private final RideService rideService;
     private final DriverService driverService;
+    private final RatingService ratingService;
 
     @Transactional
     @Override
@@ -82,8 +84,14 @@ public class RiderServiceImpl implements RiderService {
     @Override
     public DriverDto rateDriver(Long riderId, Integer rating) {
         Ride ride = rideService.getRideById(riderId);
-
-        return null;
+        Rider rider = getCurrentRider();
+        if(!rider.equals(ride.getRider())){
+            throw new RuntimeException("Rider does not own this ride : "+ ride.getRider());
+        }
+        if(!ride.getRideStatus().equals(RideStatus.ENDED)){
+            throw new RuntimeException("Ride status is not Confirmed yet, status :"+ride.getRideStatus());
+        }
+        return ratingService.rateDriver(ride,rating);
     }
 
     @Override

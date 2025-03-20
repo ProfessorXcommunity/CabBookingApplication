@@ -10,10 +10,7 @@ import com.BookYourCab.CarBookingApp.Entity.enums.RideRequestStatus;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideStatus;
 import com.BookYourCab.CarBookingApp.Exceptions.ResourceNotFoundException;
 import com.BookYourCab.CarBookingApp.Repository.DriverRepository;
-import com.BookYourCab.CarBookingApp.Services.DriverService;
-import com.BookYourCab.CarBookingApp.Services.PaymentService;
-import com.BookYourCab.CarBookingApp.Services.RideRequestService;
-import com.BookYourCab.CarBookingApp.Services.RideService;
+import com.BookYourCab.CarBookingApp.Services.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -31,6 +28,7 @@ public class DriverServiceImpl implements DriverService {
     private final RideService rideService;
     private final ModelMapper modelMapper;
     private final PaymentService paymentService;
+    private final RatingService ratingService;
 
     @Override
     @Transactional
@@ -86,6 +84,7 @@ public class DriverServiceImpl implements DriverService {
         ride.setStartedAt(LocalDateTime.now());
         Ride savedRide = rideService.updateRideStatus(ride,RideStatus.ONGOING);
         paymentService.createNewPayment(savedRide);
+        ratingService.createNewRating(savedRide);
         return modelMapper.map(savedRide,RideDto.class);
 
     }
@@ -122,7 +121,9 @@ public class DriverServiceImpl implements DriverService {
         if(!ride.getRideStatus().equals(RideStatus.ENDED)){
             throw new RuntimeException("Ride status is not ended yet, status :"+ride.getRideStatus());
         }
-        return null;
+
+        return ratingService.rateRider(ride,rating);
+
     }
 
     @Override
