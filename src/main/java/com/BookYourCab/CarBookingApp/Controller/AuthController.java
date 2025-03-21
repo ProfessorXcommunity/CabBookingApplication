@@ -8,8 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AuthorizationServiceException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.support.HttpRequestHandlerServlet;
+
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/auth")
@@ -23,6 +26,7 @@ public class AuthController {
         return new ResponseEntity<>(authService.Signup(signupDto), HttpStatus.CREATED);
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/onBoardNewDriver/{userId}")
     ResponseEntity<DriverDto> onBoardNewDriver(@PathVariable Long userId,@RequestBody OnBoardDriverDto onBoardDriverDto){
         return new ResponseEntity<>(authService.onBoardNewDriver(userId,onBoardDriverDto.getVehicleId()),HttpStatus.CREATED);
@@ -37,6 +41,17 @@ public class AuthController {
         cookie.setHttpOnly(true);
         httpServletResponse.addCookie(cookie);
         return ResponseEntity.ok(new LoginResponseDto(tokens[0]));
+    }
+    @PostMapping("/refresh")
+    public ResponseEntity<LoginResponseDto> refresh(HttpServletRequest httpServletRequest){
+        String refreshToken = Arrays.stream(httpServletRequest.getCookies())
+                .filter(cookie -> "refreshToken".equals(cookie.getName()))
+                .findFirst()
+                .map(Cookie::getValue)
+                .orElseThrow(()->new AuthorizationServiceException("Refresh Token Not found"));
+
+        String accessToken = authService.refreshToken(refreshToken);
+        return ResponseEntity.ok(new LoginResponseDto(accessToken));
     }
 
 }

@@ -6,6 +6,7 @@ import com.BookYourCab.CarBookingApp.Dto.RiderDto;
 import com.BookYourCab.CarBookingApp.Entity.Driver;
 import com.BookYourCab.CarBookingApp.Entity.Ride;
 import com.BookYourCab.CarBookingApp.Entity.RideRequest;
+import com.BookYourCab.CarBookingApp.Entity.User;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideRequestStatus;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideStatus;
 import com.BookYourCab.CarBookingApp.Exceptions.ResourceNotFoundException;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -144,8 +146,9 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver getCurrentDriver() {
-        return driverRepository.findById(2L)
-                .orElseThrow(()-> new ResourceNotFoundException("No drivers found with id "+2));
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return driverRepository.findByUser(user)
+                .orElseThrow(()-> new ResourceNotFoundException("Driver not found associated with user id "+user.getId()));
 
     }
 

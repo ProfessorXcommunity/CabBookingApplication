@@ -1,7 +1,13 @@
 package com.BookYourCab.CarBookingApp.Services.Implementations;
 
-import com.BookYourCab.CarBookingApp.Dto.*;
-import com.BookYourCab.CarBookingApp.Entity.*;
+import com.BookYourCab.CarBookingApp.Dto.DriverDto;
+import com.BookYourCab.CarBookingApp.Dto.RideDto;
+import com.BookYourCab.CarBookingApp.Dto.RideRequestDto;
+import com.BookYourCab.CarBookingApp.Dto.RiderDto;
+import com.BookYourCab.CarBookingApp.Entity.Ride;
+import com.BookYourCab.CarBookingApp.Entity.RideRequest;
+import com.BookYourCab.CarBookingApp.Entity.Rider;
+import com.BookYourCab.CarBookingApp.Entity.User;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideRequestStatus;
 import com.BookYourCab.CarBookingApp.Entity.enums.RideStatus;
 import com.BookYourCab.CarBookingApp.Exceptions.ResourceNotFoundException;
@@ -20,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
@@ -123,8 +130,9 @@ public class RiderServiceImpl implements RiderService {
     @Override
     public Rider getCurrentRider() {
 //        todo Spring security setup here
-        return riderRepository.findById(1L).orElseThrow(()->new ResourceNotFoundException(
-                "Rider not found"+1
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return riderRepository.findByUser(user).orElseThrow(()->new ResourceNotFoundException(
+                "Rider not found associated with user with id"+user.getId()
         ));
     }
 }
