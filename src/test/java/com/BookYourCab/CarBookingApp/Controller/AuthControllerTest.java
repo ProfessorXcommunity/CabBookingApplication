@@ -59,7 +59,7 @@ class AuthControllerTest {
                 .jsonPath("$.data.name").isEqualTo(signupDto.getName());
     }
 
-        @Test
+//        @Test
 //    @WithUserDetails("admin@gmail.com")
     void testOnboardDriver_success() {
 

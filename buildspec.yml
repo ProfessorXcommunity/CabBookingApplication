@@ -12,9 +12,8 @@ phases:
       - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
   build:
     commands:
-      - echo skipping tests
-      - mvn package -DskipTests
-      - echo Building and packaging the application...
+      - echo Building , Testing and packaging the application...
+      - mvn package
   post_build:
     commands:
       - echo Build, Testing and packaging completed.
