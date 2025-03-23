@@ -54,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public UserDto Signup(SignupDto signupDto) {
+    public UserDto signup(SignupDto signupDto) {
        if(userRepository.findByEmail(signupDto.getEmail()).isPresent()){
            throw new RuntimeConflictException("user already exists" + " "+signupDto.getEmail());
        }
@@ -67,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
         User savedUser = userRepository.save(mappedUser);
 
 //        todo create new user related to entity
-        riderService.createNewUser(savedUser);
+        riderService.createNewRider(savedUser);
 //        todo wallet related services
         walletService.createNewWallet(savedUser);
         return modelMapper.map(savedUser,UserDto.class);

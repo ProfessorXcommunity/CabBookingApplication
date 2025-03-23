@@ -21,7 +21,7 @@ public interface RiderService {
 
     Page<RideDto> getAllMyRides(PageRequest pageRequest);
 
-    Rider createNewUser (User user);
+    Rider createNewRider(User user);
 
     Rider getCurrentRider();
 }

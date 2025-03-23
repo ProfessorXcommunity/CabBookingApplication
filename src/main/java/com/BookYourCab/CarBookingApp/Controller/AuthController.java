@@ -23,7 +23,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     ResponseEntity<UserDto> signUp(@RequestBody SignupDto signupDto){
-        return new ResponseEntity<>(authService.Signup(signupDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(authService.signup(signupDto), HttpStatus.CREATED);
     }
 
     @Secured("ROLE_ADMIN")
