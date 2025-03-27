@@ -4,6 +4,7 @@ import com.BookYourCab.CarBookingApp.Exceptions.ResourceNotFoundException;
 import com.BookYourCab.CarBookingApp.Exceptions.RuntimeConflictException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -64,32 +65,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<String>> handleInternalServerError(Exception exception, HttpServletRequest request) {
-        if (request.getRequestURI().equals("/")) {
-            ApiResponse<String> response = ApiResponse.<String>builder()
-                    .timeStamp(LocalDateTime.now())
-                    .data(null)
-                    .error(ApiError.builder()
-                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                            .message("Health Check Failed")
-                            .build())
-                    .build();
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        }
-
+    public ResponseEntity<ApiResponse<?>> handleInternalServerError(Exception exception) {
         ApiError apiError = ApiError.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .message(exception.getMessage())
                 .build();
-
-        ApiResponse<String> errorResponse = ApiResponse.<String>builder()
-                .timeStamp(LocalDateTime.now())
-                .data(null)
-                .error(apiError)
-                .build();
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        return buildErrorResponseEntity(apiError);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
