@@ -1,7 +1,7 @@
-# Cab Booking App
+# Car Booking App
 
 ## Overview
-The **Cab Booking App** is a backend application designed for ride-hailing services. It is built with **Spring Boot** and integrates **OSRM (Open Source Routing Machine)** for efficient route calculations. The app provides a robust authentication and authorization mechanism, ride management, driver onboarding, and a strategy-based system for payments and driver selection.
+The **Car Booking App** is a backend application designed for ride-hailing services. It is built with **Spring Boot** and integrates **OSRM (Open Source Routing Machine)** for efficient route calculations. The app provides a robust authentication and authorization mechanism, ride management, driver onboarding, and a strategy-based system for payments and driver selection.
 
 ## Tech Stack
 - **Backend**: Spring Boot, Hibernate, JPA
@@ -44,14 +44,14 @@ The **Cab Booking App** is a backend application designed for ride-hailing servi
 ## Installation & Setup
 ### **1. Clone the Repository**
 ```sh
- git clone https://github.com/ProfessorXcommunity/CabBookingApplication.git
- cd CabBookingApplication
+ git clone https://github.com/ProfessorXcommunity/CarBookingApplication.git
+ cd CarBookingApplication
 ```
 
 ### **2. Configure the Database**
 Ensure PostgreSQL is installed and configure the connection in `application.properties`:
 ```properties
-spring.datasource.url=jdbc:postgresql://your-db-host:5432/cab_booking
+spring.datasource.url=jdbc:postgresql://your-db-host:5432/car_booking
 spring.datasource.username=your-username
 spring.datasource.password=your-password
 spring.jpa.hibernate.ddl-auto=update
@@ -82,8 +82,8 @@ http://car-booking-app.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html#/
    ```
 2. Deploy to AWS Elastic Beanstalk:
    ```sh
-   eb init -p java-21 cab-booking-app
-   eb create cab-booking-env
+   eb init -p java-21 car-booking-app
+   eb create car-booking-env
    ```
 
 ## API Endpoints
@@ -123,4 +123,3 @@ http://car-booking-app.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html#/
 
 ## Contribution
 Contributions are welcome! Please follow the standard pull request process.
-
